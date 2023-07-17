@@ -1,23 +1,7 @@
 package be.bstorm.models;
 
-public class Courant {
-
-    private String numero;
-    private double solde;
+public class Courant extends Compte{
     private double ligneDeCredit;
-    private Personne titulaire;
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public double getSolde() {
-        return solde;
-    }
 
     public double getLigneDeCredit() {
         return ligneDeCredit;
@@ -30,28 +14,8 @@ public class Courant {
         this.ligneDeCredit = ligneDeCredit;
     }
 
-    public Personne getTitulaire() {
-        return titulaire;
-    }
-
-    public void setTitulaire(Personne titulaire) {
-        this.titulaire = titulaire;
-    }
-
-    public void retrait(double montant){
-        if(montant < 0){
-            return;
-        }
-        if(getSolde() - montant < -getLigneDeCredit()){
-            return;
-        }
-        solde -= montant;
-    }
-
-    public void depot(double montant){
-        if(montant < 0){
-            return;
-        }
-        solde += montant;
+    @Override
+    public void retrait(double montant) {
+        super.retrait(montant,getLigneDeCredit());
     }
 }

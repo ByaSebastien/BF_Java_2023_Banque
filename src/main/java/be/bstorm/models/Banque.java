@@ -1,13 +1,11 @@
 package be.bstorm.models;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Banque {
 
     private String nom;
-    private HashMap<String,Courant> comptes;
+    private HashMap<String,Compte> comptes;
 
     public Banque(String nom){
 
@@ -19,12 +17,12 @@ public class Banque {
         return nom;
     }
 
-    public HashMap<String, Courant> getComptes() {
+    public HashMap<String, Compte> getComptes() {
 //        return Map.copyOf(comptes);
-        return (HashMap<String, Courant>) comptes.clone();
+        return (HashMap<String, Compte>) comptes.clone();
     }
 
-    public void ajouterCompte(Courant c){
+    public void ajouterCompte(Compte c){
         if(comptes.containsKey(c.getNumero())){
             return;
         }
@@ -36,10 +34,8 @@ public class Banque {
         comptes.remove(numero);
     }
 
-    public Courant recupCompte(String numero){
+    public Compte recupCompte(String numero){
 
         return getComptes().get(numero);
     }
-
-
 }
