@@ -1,5 +1,6 @@
 package be.bstorm;
 
+import be.bstorm.models.Banque;
 import be.bstorm.models.Courant;
 import be.bstorm.models.Personne;
 
@@ -7,6 +8,7 @@ import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
+        Banque banque = new Banque("Les voleurs");
         Personne p1 = new Personne();
         p1.setNom("Schwary");
         p1.setPrenom("Arnold");
@@ -17,6 +19,10 @@ public class Main {
         c1.setLigneDeCredit(1000);
         c1.setTitulaire(p1);
 
+        banque.ajouterCompte(c1);
+
+        System.out.println(banque.recupCompte("1").getTitulaire().getPrenom());
+
         System.out.println(c1.getTitulaire().getPrenom() + " : " + c1.getSolde() + " euro.");
         c1.depot(1000);
         System.out.println(c1.getTitulaire().getPrenom() + " : " + c1.getSolde() + " euro.");
@@ -24,6 +30,5 @@ public class Main {
         System.out.println(c1.getTitulaire().getPrenom() + " : " + c1.getSolde() + " euro.");
 
         System.out.println(c1.getTitulaire().getDdn().getYear());
-
     }
 }
