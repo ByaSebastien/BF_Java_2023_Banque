@@ -8,27 +8,21 @@ public class Personne {
     private String prenom;
     private LocalDate ddn;
 
-    public String getNom() {
-        return nom;
+    public Personne(String nom, String prenom, LocalDate ddn) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.ddn = ddn;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public String getNom() {
+        return nom;
     }
 
     public String getPrenom() {
         return prenom;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
     public LocalDate getDdn() {
         return ddn;
-    }
-
-    public void setDdn(LocalDate ddn) {
-        this.ddn = ddn;
     }
 }

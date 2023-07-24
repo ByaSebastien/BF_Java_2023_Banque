@@ -6,12 +6,16 @@ public class Epargne extends Compte{
 
     private LocalDateTime dateDernierRetrait;
 
-    public LocalDateTime getDateDernierRetrait() {
-        return dateDernierRetrait;
+    public Epargne(String paramNumero, Personne paramTitulaire){
+        super(paramNumero,paramTitulaire);
     }
 
-    public void setDateDernierRetrait(LocalDateTime dateDernierRetrait) {
-        this.dateDernierRetrait = dateDernierRetrait;
+    public Epargne(String paramNumero, Personne paramTitulaire, double paramSolde){
+        super(paramNumero,paramTitulaire,paramSolde);
+    }
+
+    public LocalDateTime getDateDernierRetrait() {
+        return dateDernierRetrait;
     }
 
     @Override
@@ -19,7 +23,12 @@ public class Epargne extends Compte{
         double previous = getSolde();
         super.retrait(montant);
         if(previous > getSolde()){
-            setDateDernierRetrait(LocalDateTime.now());
+            this.dateDernierRetrait = LocalDateTime.now();
         }
+    }
+
+    @Override
+    protected double calculInteret() {
+        return getSolde() * 0.045;
     }
 }

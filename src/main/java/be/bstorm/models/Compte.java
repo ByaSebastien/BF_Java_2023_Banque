@@ -1,18 +1,28 @@
 package be.bstorm.models;
 
-public class Compte {
+import be.bstorm.exceptions.SoldeInsuffisantException;
+
+public abstract class Compte {
 
 
     private String numero;
     private double solde;
     private Personne titulaire;
 
-    public String getNumero() {
-        return numero;
+    public Compte(){}
+
+    public Compte(String paramNumero, Personne paramTitulaire){
+        this(paramNumero,paramTitulaire,0);
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public Compte(String paramNumero, Personne paramTitulaire, double paramSolde){
+        this.numero = paramNumero;
+        this.titulaire = paramTitulaire;
+        this.solde = paramSolde;
+    }
+
+    public String getNumero() {
+        return numero;
     }
 
     public double getSolde() {
@@ -23,10 +33,6 @@ public class Compte {
         return titulaire;
     }
 
-    public void setTitulaire(Personne titulaire) {
-        this.titulaire = titulaire;
-    }
-
     public void retrait(double montant){
 
         retrait(montant,0);
@@ -35,19 +41,26 @@ public class Compte {
     public void retrait(double montant, double ligneDeCredit){
 
         if(montant < 0){
-            return;
+            throw new IllegalArgumentException("Le montant doit être positif.");
         }
         if(getSolde() - montant < - ligneDeCredit){
-            return;
+            throw new SoldeInsuffisantException();
         }
         solde -= montant;
     }
 
     public void depot(double montant){
         if(montant < 0){
-            return;
+            throw new IllegalArgumentException("Le montant doit être positif.");
         }
         solde += montant;
+    }
+
+    protected abstract double calculInteret();
+
+    public void appliquerInteret(){
+
+        solde += calculInteret();
     }
 }
 
