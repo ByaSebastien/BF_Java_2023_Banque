@@ -1,5 +1,8 @@
 package be.bstorm.models;
 
+import be.bstorm.exceptions.ArgumentOutOfRangeException;
+import be.bstorm.exceptions.SoldeInsuffisantException;
+
 public class Courant extends Compte{
     private double ligneDeCredit;
 
@@ -7,7 +10,7 @@ public class Courant extends Compte{
         super(paramNumero,paramTitulaire);
     }
 
-    public Courant(double paramLigneDeCredit, String paramNumero, Personne paramTitulaire){
+    public Courant(double paramLigneDeCredit, String paramNumero, Personne paramTitulaire) throws ArgumentOutOfRangeException {
         super(paramNumero,paramTitulaire);
         setLigneDeCredit(paramLigneDeCredit);
     }
@@ -16,15 +19,15 @@ public class Courant extends Compte{
         return ligneDeCredit;
     }
 
-    private void setLigneDeCredit(double ligneDeCredit) {
+    private void setLigneDeCredit(double ligneDeCredit) throws ArgumentOutOfRangeException {
         if(ligneDeCredit < 0){
-            throw new IllegalStateException("Ligne de crédit doit être positive.");
+            throw new ArgumentOutOfRangeException("Ligne de crédit doit être positive.");
         }
         this.ligneDeCredit = ligneDeCredit;
     }
 
     @Override
-    public void retrait(double montant) {
+    public void retrait(double montant) throws SoldeInsuffisantException {
         super.retrait(montant,getLigneDeCredit());
     }
 

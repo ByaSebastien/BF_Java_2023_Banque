@@ -1,5 +1,6 @@
 package be.bstorm;
 
+import be.bstorm.exceptions.ArgumentOutOfRangeException;
 import be.bstorm.exceptions.SoldeInsuffisantException;
 import be.bstorm.models.Banque;
 import be.bstorm.models.Courant;
@@ -14,7 +15,12 @@ public class Main {
         Banque banque = new Banque("Les voleurs");
         Personne p1 = new Personne("Schwarzy", "Arnold", LocalDate.of(1960, 5, 21));
 
-        Courant c1 = new Courant(1000, "1", p1);
+        Courant c1 = null;
+        try {
+            c1 = new Courant(1000, "1", p1);
+        } catch (ArgumentOutOfRangeException e) {
+            throw new RuntimeException(e);
+        }
 
 
         Personne p2 = new Personne("Stalone", "Sylvester", LocalDate.of(1960, 5, 21));
@@ -29,13 +35,13 @@ public class Main {
             c1.depot(1000);
             banque.recupCompte("1").retrait(1000);
             banque.recupCompte("2").retrait(500);
-        }catch (SoldeInsuffisantException ex){
+        } catch (SoldeInsuffisantException ex) {
             System.out.println(ex.getMessage());
-        }catch (IllegalStateException ex){
+        } catch (IllegalStateException ex) {
             System.out.println(ex.getMessage());
-        }catch (IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
@@ -43,9 +49,7 @@ public class Main {
         System.out.println(banque.recupCompte("1").getTitulaire().getPrenom());
 
         System.out.println(c1.getTitulaire().getPrenom() + " : " + c1.getSolde() + " euro.");
-        c1.depot(1000);
         System.out.println(c1.getTitulaire().getPrenom() + " : " + c1.getSolde() + " euro.");
-        c1.retrait(500);
         System.out.println(c1.getTitulaire().getPrenom() + " : " + c1.getSolde() + " euro.");
 
         System.out.println(c1.getTitulaire().getDdn().getYear());

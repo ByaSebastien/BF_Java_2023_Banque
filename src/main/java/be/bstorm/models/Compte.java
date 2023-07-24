@@ -33,12 +33,12 @@ public abstract class Compte {
         return titulaire;
     }
 
-    public void retrait(double montant){
+    public void retrait(double montant) throws SoldeInsuffisantException {
 
         retrait(montant,0);
     }
 
-    public void retrait(double montant, double ligneDeCredit){
+    public void retrait(double montant, double ligneDeCredit) throws SoldeInsuffisantException {
 
         if(montant < 0){
             throw new IllegalArgumentException("Le montant doit être positif.");

@@ -1,5 +1,7 @@
 package be.bstorm.models;
 
+import be.bstorm.exceptions.SoldeInsuffisantException;
+
 import java.time.LocalDateTime;
 
 public class Epargne extends Compte{
@@ -19,7 +21,7 @@ public class Epargne extends Compte{
     }
 
     @Override
-    public void retrait(double montant) {
+    public void retrait(double montant) throws SoldeInsuffisantException {
         double previous = getSolde();
         super.retrait(montant);
         if(previous > getSolde()){
