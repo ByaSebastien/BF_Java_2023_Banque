@@ -1,10 +1,15 @@
 package be.bstorm.models;
 
 import be.bstorm.exceptions.SoldeInsuffisantException;
+import be.bstorm.models.interfaces.Banker;
+import be.bstorm.models.interfaces.Customer;
+import be.bstorm.models.interfaces.PassageEnNegatifSubscriber;
 
-public abstract class Compte {
+import java.util.List;
 
+public abstract class Compte implements Customer, Banker {
 
+    private PassageEnNegatifSubscriber passageEnNegatifEvent;
     private String numero;
     private double solde;
     private Personne titulaire;
@@ -20,19 +25,19 @@ public abstract class Compte {
         this.titulaire = paramTitulaire;
         this.solde = paramSolde;
     }
-
+    @Override
     public String getNumero() {
         return numero;
     }
-
+    @Override
     public double getSolde() {
         return solde;
     }
-
+    @Override
     public Personne getTitulaire() {
         return titulaire;
     }
-
+    @Override
     public void retrait(double montant) throws SoldeInsuffisantException {
 
         retrait(montant,0);
@@ -48,7 +53,7 @@ public abstract class Compte {
         }
         solde -= montant;
     }
-
+    @Override
     public void depot(double montant){
         if(montant < 0){
             throw new IllegalArgumentException("Le montant doit être positif.");
@@ -57,10 +62,23 @@ public abstract class Compte {
     }
 
     protected abstract double calculInteret();
-
+    @Override
     public void appliquerInteret(){
 
         solde += calculInteret();
+    }
+
+    public void setPassageEnNegatifEvent(PassageEnNegatifSubscriber subscriber){
+
+        passageEnNegatifEvent = subscriber;
+    }
+
+    public void raisePassageEnNegatifEvent(){
+
+        if(passageEnNegatifEvent == null){
+            return;
+        }
+        passageEnNegatifEvent.execute(this);
     }
 }
 

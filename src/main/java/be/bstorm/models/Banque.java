@@ -22,11 +22,12 @@ public class Banque {
         return (HashMap<String, Compte>) comptes.clone();
     }
 
-    public void ajouterCompte(Compte c){
-        if(comptes.containsKey(c.getNumero())){
+    public void ajouterCompte(Compte compte){
+        if(comptes.containsKey(compte.getNumero())){
             return;
         }
-        comptes.put(c.getNumero(),c);
+        compte.setPassageEnNegatifEvent(c -> this.passageEnNegatifAction(c));
+        comptes.put(compte.getNumero(),compte);
     }
 
     public void supprimerCompte(String numero){
@@ -37,5 +38,10 @@ public class Banque {
     public Compte recupCompte(String numero){
 
         return getComptes().get(numero);
+    }
+
+    private void passageEnNegatifAction(Compte c){
+
+        System.out.println("Le compte " + c.getNumero() + "de la banque " + this.getNom() + " vient de passer en négatif");
     }
 }
